@@ -1,0 +1,40 @@
+#Bibliotecas que utilizarei
+import pandas as pd
+import numpy as np
+
+#Transformando csv em utf-8 para facilitar a leitura e não dar erro no código
+with open('MICRODADOS_ENEM_2020.csv', 'r', encoding='latin-1') as file:
+    content = file.read()
+
+with open('microdados_enem_utf8.csv', 'w', encoding='utf-8') as file:
+    file.write(content)
+
+#Lendo arquivo
+df = pd.read_csv('microdados_enem_utf8.csv', encoding='utf-8', sep=';')
+
+# Primeira Análise
+df.head()
+df.info()
+df.describe(include='O')
+
+
+# Contagem total de valores nulos no DataFrame
+contagem_total_nulos = df.isnull().sum().sum()
+
+# Exibindo a contagem total de valores nulos
+print(contagem_total_nulos)
+
+# Contagem de valores nulos em cada coluna
+contagem_nulos_por_coluna = df.isnull().sum()
+
+# Exibindo a contagem de valores nulos em cada coluna
+print(contagem_nulos_por_coluna)
+
+
+
+
+
+
+
+
+
