@@ -1,3 +1,8 @@
+#Para essa etapa utilizei o VScode porém vou disponibilizar uma versão do script no Google Colab para facilitar a visualização e avaliação :)
+Link do Colab:
+https://colab.research.google.com/drive/1avhdDuC__RIY0aglM8Y9Zl_P2ipRox5C#scrollTo=vosWggMHxrPo
+
+
 #Bibliotecas que utilizarei
 import pandas as pd
 import numpy as np
