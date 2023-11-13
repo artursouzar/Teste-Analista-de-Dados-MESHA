@@ -1,35 +1,38 @@
-SELECT * FROM dados_enem;
+SELECT * FROM amostra_5porcento;
 
 #Escola com a maior média de notas
-SELECT NO_MUNICIPIO_ESC, AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) AS media_geral
-FROM dados_enem
-WHERE NO_MUNICIPIO_ESC IS NOT NULL
-GROUP BY NO_MUNICIPIO_ESC
+SELECT no_municipio_esc, AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) AS media_geral
+FROM amostra_5porcento
+WHERE no_municipio_esc IS NOT NULL
+GROUP BY no_municipio_esc
 ORDER BY media_geral DESC
 LIMIT 1;
 
 #Aluno com a maior média de notas e valor da média
-SELECT NU_INSCRICAO, (NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
-FROM dados_enem
-WHERE NU_NOTA_CN IS NOT NULL
-      AND NU_NOTA_CH IS NOT NULL
-      AND NU_NOTA_LC IS NOT NULL
-      AND NU_NOTA_MT IS NOT NULL
+SELECT nu_inscricao, (nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL
 ORDER BY media_geral DESC
 LIMIT 1;
 
 #Média Geral
-SELECT AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
-FROM dados_enem
-WHERE NU_NOTA_CN IS NOT NULL
-      AND NU_NOTA_CH IS NOT NULL
-      AND NU_NOTA_LC IS NOT NULL
-      AND NU_NOTA_MT IS NOT NULL;
+SELECT AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL;
 
 #Percentual de Ausentes
-SELECT (COUNT(*) - COUNT(NU_NOTA_CN)) / COUNT(*) * 100 AS percentual_ausentes
-FROM dados_enem;
+SELECT (COUNT(*) - COUNT(nu_nota_cn)) / COUNT(*) * 100 AS percentual_ausentes
+FROM amostra_5porcento;
 
+#Número total de ausentes
+SELECT COUNT(*) AS total_inscritos
+FROM amostra_5porcento;
 
 #Média por Disciplina
 SELECT AVG(NU_NOTA_CN) AS media_cn,
@@ -42,32 +45,69 @@ WHERE NU_NOTA_CN IS NOT NULL
       AND NU_NOTA_LC IS NOT NULL
       AND NU_NOTA_MT IS NOT NULL;
 
-
 #Média por Sexo
-SELECT TP_SEXO, AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
-FROM dados_enem
-WHERE NU_NOTA_CN IS NOT NULL
-      AND NU_NOTA_CH IS NOT NULL
-      AND NU_NOTA_LC IS NOT NULL
-      AND NU_NOTA_MT IS NOT NULL
-GROUP BY TP_SEXO;
+SELECT tp_sexo, AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL
+GROUP BY tp_sexo;
 
 
 #Média por Etnia
-SELECT TP_COR_RACA, AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
-FROM dados_enem
-WHERE NU_NOTA_CN IS NOT NULL
-      AND NU_NOTA_CH IS NOT NULL
-      AND NU_NOTA_LC IS NOT NULL
-      AND NU_NOTA_MT IS NOT NULL
-GROUP BY TP_COR_RACA;
+SELECT tp_cor_raca, AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL
+GROUP BY tp_cor_raca;
 
 
+#Queries Adicionais
+
+#Inscritos por Idade
+SELECT tp_faixa_etaria, AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL
+GROUP BY tp_faixa_etaria;
 
 
+#Média de Notas por Estado Civil
+SELECT tp_estado_civil, AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL
+GROUP BY tp_estado_civil;
 
+#Média por Nacionalidade
+SELECT tp_nacionalidade, AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL
+GROUP BY tp_nacionalidade;
 
+#Média por Tipo de Escola
+SELECT tp_escola, AVG(nu_nota_cn + nu_nota_ch + nu_nota_lc + nu_nota_mt) / 4 AS media_geral
+FROM amostra_5porcento
+WHERE nu_nota_cn IS NOT NULL
+      AND nu_nota_ch IS NOT NULL
+      AND nu_nota_lc IS NOT NULL
+      AND nu_nota_mt IS NOT NULL
+GROUP BY tp_escola;
 
+#Percentual de Treineiros
+SELECT in_treineiro, COUNT(*) AS total, COUNT(nu_nota_cn) AS com_notas
+FROM amostra_5porcento
+GROUP BY in_treineiro;
 
 
 
