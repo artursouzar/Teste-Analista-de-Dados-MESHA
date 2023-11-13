@@ -6,6 +6,8 @@ https://colab.research.google.com/drive/1avhdDuC__RIY0aglM8Y9Zl_P2ipRox5C#scroll
 #Bibliotecas que utilizarei
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 #Transformando csv em utf-8 para facilitar a leitura e não dar erro no código
 with open('MICRODADOS_ENEM_2020.csv', 'r', encoding='latin-1') as file:
@@ -93,6 +95,27 @@ maior_media = df_presentes['media_geral'].max()
 # Exibindo o aluno com a maior média e a média correspondente
 print(f"Aluno com a maior média: {aluno_maior_media}")
 print(f"Maior média: {maior_media}")
+
+# Selecionando as colunas relevantes para o cálculo da média
+colunas_notas = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']
+
+# Filtrando apenas as linhas com valores válidos para as notas
+df_notas = df[colunas_notas].dropna()
+
+# Adicionando uma coluna de média geral
+df_notas['media_geral'] = df_notas.mean(axis=1)
+
+# Adicionando a coluna 'NU_INSCRICAO' para identificação posterior
+df_notas['NU_INSCRICAO'] = df['NU_INSCRICAO']
+
+# Ordenando o DataFrame pela coluna de média geral em ordem decrescente
+df_notas_ordenado = df_notas.sort_values(by='media_geral', ascending=False)
+
+# Extraindo os 5 primeiros alunos destaque
+alunos_destaque = df_notas_ordenado.head(5)
+
+# Exibindo os resultados
+print(alunos_destaque[['NU_INSCRICAO', 'media_geral']])
 
 ---------------------//----------------------------------------//-------------------------
 
@@ -218,4 +241,31 @@ print(media_notas_por_disciplina_etnia)
 ---------------------//----------------------------------------//-------------------------
 
 #Análises Adicionais:
+
+#Média por Tipo da Escola
+# Supondo que o DataFrame é chamado 'df'
+# Selecionando as colunas relevantes
+colunas_notas_tipo_escola = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT', 'TP_ESCOLA']
+
+# Filtrando apenas as linhas com valores válidos para as notas e tipo de escola
+df_notas_tipo_escola = df[colunas_notas_tipo_escola].dropna()
+
+# Adicionando uma coluna de média geral
+df_notas_tipo_escola['media_geral'] = df_notas_tipo_escola[['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']].mean(axis=1)
+
+# Mapeando os códigos do tipo de escola para rótulos
+mapa_tipo_escola = {
+    1: 'Não Respondeu',
+    2: 'Pública',
+    3: 'Privada'
+}
+
+# Aplicando o mapeamento para os rótulos do tipo de escola
+df_notas_tipo_escola['TP_ESCOLA'] = df_notas_tipo_escola['TP_ESCOLA'].map(mapa_tipo_escola)
+
+# Calculando a média geral por tipo de escola
+media_geral_por_tipo_escola = df_notas_tipo_escola.groupby('TP_ESCOLA')['media_geral'].mean()
+
+# Exibindo a média geral por tipo de escola
+print(media_geral_por_tipo_escola)
 
