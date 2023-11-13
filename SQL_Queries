@@ -1,0 +1,9 @@
+SELECT * FROM dados_enem;
+
+SELECT COUNT(*) AS total_inscritos FROM dados_enem;
+
+SELECT AVG(NU_NOTA_CN) AS media_cn,
+       AVG(NU_NOTA_CH) AS media_ch,
+       AVG(NU_NOTA_LC) AS media_lc,
+       AVG(NU_NOTA_MT) AS media_mt
+FROM dados_enem;
