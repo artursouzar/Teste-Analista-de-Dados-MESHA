@@ -35,11 +35,187 @@ contagem_nulos_por_coluna = df.isnull().sum()
 # Exibindo a contagem de valores nulos em cada coluna
 print(contagem_nulos_por_coluna)
 
+---------------------//----------------------------------------//-------------------------
+
+# Pergunta 1
+#Escola com a Maior Média de Notas
+# Selecionando as colunas relevantes
+colunas_escola = ['CO_MUNICIPIO_ESC', 'NO_MUNICIPIO_ESC', 'NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']
+
+# Filtrando apenas as linhas com valores válidos para o município da escola e notas
+df_notas_escola = df[colunas_escola].dropna(subset=['CO_MUNICIPIO_ESC', 'NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT'])
+
+# Calculando a média geral das notas para cada escola
+df_notas_escola['media_geral'] = df_notas_escola[['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']].mean(axis=1)
+
+# Identificando a escola com a maior média
+escola_maior_media = df_notas_escola.loc[df_notas_escola['media_geral'].idxmax(), 'NO_MUNICIPIO_ESC']
+
+# Exibindo a escola com a maior média
+print(f"Escola com a maior média: {escola_maior_media}")
 
 
+#Médias Por Escola
+# Selecionando as colunas relevantes
+colunas_escola = ['CO_MUNICIPIO_ESC', 'NO_MUNICIPIO_ESC', 'NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']
+
+# Filtrando apenas as linhas com valores válidos para o município da escola e notas
+df_notas_escola = df[colunas_escola].dropna(subset=['CO_MUNICIPIO_ESC', 'NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT'])
+
+# Calculando a média geral das notas para cada escola
+df_notas_escola['media_geral'] = df_notas_escola[['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']].mean(axis=1)
+
+# Encontrando as quatro escolas com as maiores médias
+top_escolas = df_notas_escola.groupby(['CO_MUNICIPIO_ESC', 'NO_MUNICIPIO_ESC'])['media_geral'].mean().nlargest(4)
+
+# Exibindo as quatro escolas com as maiores médias
+print("Quatro escolas com as maiores médias:")
+print(top_escolas)
+
+---------------------//----------------------------------------//-------------------------
+
+#Pergunta 2
+
+# Selecionando as colunas relevantes
+colunas_notas = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']
+colunas_presenca = ['TP_PRESENCA_CN', 'TP_PRESENCA_CH', 'TP_PRESENCA_LC', 'TP_PRESENCA_MT']
+
+# Filtrando apenas os alunos presentes em todas as provas
+df_presentes = df[df[colunas_presenca].sum(axis=1) == len(colunas_presenca)]
+
+# Calculando a média geral das notas para cada aluno
+df_presentes['media_geral'] = df_presentes[colunas_notas].mean(axis=1)
+
+# Identificando o aluno com a maior média
+aluno_maior_media = df_presentes.loc[df_presentes['media_geral'].idxmax(), 'NU_INSCRICAO']
+maior_media = df_presentes['media_geral'].max()
+
+# Exibindo o aluno com a maior média e a média correspondente
+print(f"Aluno com a maior média: {aluno_maior_media}")
+print(f"Maior média: {maior_media}")
+
+---------------------//----------------------------------------//-------------------------
+
+#Pergunta 3
+# Selecionando as colunas relevantes
+colunas_notas = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']
+
+# Calculando a média geral das notas
+media_geral_notas = df[colunas_notas].mean(axis=1).mean()
+
+# Exibindo a média geral das notas
+print("Média Geral das Notas:", media_geral_notas)
+
+---------------------//----------------------------------------//-------------------------
+
+#Pergunta 4
+# Selecionando as colunas relevantes
+colunas_presenca = ['TP_PRESENCA_CN', 'TP_PRESENCA_CH', 'TP_PRESENCA_LC', 'TP_PRESENCA_MT']
+
+# Calculando a porcentagem de ausentes para cada disciplina
+porcentagem_ausentes_por_disciplina = df[colunas_presenca].mean() * 100
+
+# Exibindo a porcentagem de ausentes para cada disciplina
+print(porcentagem_ausentes_por_disciplina)
+
+# Selecionando as colunas relevantes
+colunas_presenca = ['TP_PRESENCA_CN', 'TP_PRESENCA_CH', 'TP_PRESENCA_LC', 'TP_PRESENCA_MT']
+
+# Calculando a porcentagem de ausentes geral
+total_participantes = len(df)
+porcentagem_ausentes_geral = (df[colunas_presenca].sum(axis=1) == 0).mean() * 100
+
+# Exibindo a porcentagem de ausentes geral
+print("Porcentagem de Ausentes Geral:", porcentagem_ausentes_geral)
+
+---------------------//----------------------------------------//-------------------------
+
+#Pergunta 5
+# Contagem de valores únicos na coluna 'NU_INSCRICAO'
+contagem_inscricoes = df['NU_INSCRICAO'].value_counts()
+
+# Número total de valores únicos na coluna 'NU_INSCRICAO'
+total_inscricoes_unicas = df['NU_INSCRICAO'].nunique()
+print("Contagem de Valores Únicos:\n", contagem_inscricoes)
+print("\nNúmero Total de Valores Únicos:", total_inscricoes_unicas)
+
+---------------------//----------------------------------------//-------------------------
+
+#Pergunta 6
+# Média de notas por disciplina
+media_cn= df.NU_NOTA_CN.mean()
+media_ch= df.NU_NOTA_CH.mean()
+media_lc= df.NU_NOTA_LC.mean()
+media_mt= df.NU_NOTA_MT.mean()
 
 
+# Exibindo a média de notas por disciplina
+print("\nMédia CN:", media_cn)
+print("\nMédia CH:", media_ch)
+print("\nMédia LC:", media_lc)
+print("\nMédia MT:", media_mt)
+
+---------------------//----------------------------------------//-------------------------
+
+#Pergunta 7
+# Supondo que o DataFrame é chamado 'df'
+# Substitua 'df' pelo nome real do seu DataFrame
+
+# Selecionando as colunas relevantes
+colunas_notas_sexo = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT', 'TP_SEXO']
+
+# Filtrando apenas as linhas com valores válidos para as notas
+df_notas_sexo = df[colunas_notas_sexo].dropna(subset=['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT'])
+
+# Calculando a média geral das notas por sexo
+media_notas_por_sexo = df_notas_sexo.groupby('TP_SEXO').mean()
+
+# Exibindo a média das notas por sexo
+print(media_notas_por_sexo)
+
+# Selecionando as colunas relevantes
+colunas_notas_sexo = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT', 'TP_SEXO']
+
+# Filtrando apenas as linhas com valores válidos para as notas
+df_notas_sexo = df[colunas_notas_sexo].dropna(subset=['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT'])
+
+# Calculando a média geral das notas para cada aluno
+df_notas_sexo['media_geral'] = df_notas_sexo[['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT']].mean(axis=1)
+
+# Calculando a média geral das notas por sexo
+media_geral_por_sexo = df_notas_sexo.groupby('TP_SEXO')['media_geral'].mean()
+
+# Exibindo a média geral das notas por sexo
+print(media_geral_por_sexo)
+
+---------------------//----------------------------------------//-------------------------
+
+#Pergunta 8 
+# Selecionando as colunas relevantes
+colunas_notas_etnia = ['NU_NOTA_CN', 'NU_NOTA_CH', 'NU_NOTA_LC', 'NU_NOTA_MT', 'TP_COR_RACA']
+df_notas_etnia = df[colunas_notas_etnia]
+
+# Mapeando os códigos da etnia para rótulos
+mapa_etnia = {
+    0: 'Não Declarado',
+    1: 'Branca',
+    2: 'Preta',
+    3: 'Parda',
+    4: 'Amarela',
+    5: 'Indígena'
+}
+
+# Aplicando o mapeamento para a coluna TP_COR_RACA
+df_notas_etnia['TP_COR_RACA'] = df_notas_etnia['TP_COR_RACA'].map(mapa_etnia)
+
+# Calculando a média das notas por disciplina e etnia
+media_notas_por_disciplina_etnia = df_notas_etnia.groupby(['TP_COR_RACA']).mean()
+
+# Exibindo a média de notas por disciplina e etnia
+print(media_notas_por_disciplina_etnia)
 
 
+---------------------//----------------------------------------//-------------------------
 
+#Análises Adicionais:
 
