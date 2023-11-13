@@ -1,9 +1,73 @@
 SELECT * FROM dados_enem;
 
-SELECT COUNT(*) AS total_inscritos FROM dados_enem;
+#Escola com a maior média de notas
+SELECT NO_MUNICIPIO_ESC, AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) AS media_geral
+FROM dados_enem
+WHERE NO_MUNICIPIO_ESC IS NOT NULL
+GROUP BY NO_MUNICIPIO_ESC
+ORDER BY media_geral DESC
+LIMIT 1;
 
+#Aluno com a maior média de notas e valor da média
+SELECT NU_INSCRICAO, (NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
+FROM dados_enem
+WHERE NU_NOTA_CN IS NOT NULL
+      AND NU_NOTA_CH IS NOT NULL
+      AND NU_NOTA_LC IS NOT NULL
+      AND NU_NOTA_MT IS NOT NULL
+ORDER BY media_geral DESC
+LIMIT 1;
+
+#Média Geral
+SELECT AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
+FROM dados_enem
+WHERE NU_NOTA_CN IS NOT NULL
+      AND NU_NOTA_CH IS NOT NULL
+      AND NU_NOTA_LC IS NOT NULL
+      AND NU_NOTA_MT IS NOT NULL;
+
+#Percentual de Ausentes
+SELECT (COUNT(*) - COUNT(NU_NOTA_CN)) / COUNT(*) * 100 AS percentual_ausentes
+FROM dados_enem;
+
+
+#Média por Disciplina
 SELECT AVG(NU_NOTA_CN) AS media_cn,
        AVG(NU_NOTA_CH) AS media_ch,
        AVG(NU_NOTA_LC) AS media_lc,
        AVG(NU_NOTA_MT) AS media_mt
-FROM dados_enem;
+FROM dados_enem
+WHERE NU_NOTA_CN IS NOT NULL
+      AND NU_NOTA_CH IS NOT NULL
+      AND NU_NOTA_LC IS NOT NULL
+      AND NU_NOTA_MT IS NOT NULL;
+
+
+#Média por Sexo
+SELECT TP_SEXO, AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
+FROM dados_enem
+WHERE NU_NOTA_CN IS NOT NULL
+      AND NU_NOTA_CH IS NOT NULL
+      AND NU_NOTA_LC IS NOT NULL
+      AND NU_NOTA_MT IS NOT NULL
+GROUP BY TP_SEXO;
+
+
+#Média por Etnia
+SELECT TP_COR_RACA, AVG(NU_NOTA_CN + NU_NOTA_CH + NU_NOTA_LC + NU_NOTA_MT) / 4 AS media_geral
+FROM dados_enem
+WHERE NU_NOTA_CN IS NOT NULL
+      AND NU_NOTA_CH IS NOT NULL
+      AND NU_NOTA_LC IS NOT NULL
+      AND NU_NOTA_MT IS NOT NULL
+GROUP BY TP_COR_RACA;
+
+
+
+
+
+
+
+
+
+
