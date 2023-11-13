@@ -269,3 +269,4 @@ media_geral_por_tipo_escola = df_notas_tipo_escola.groupby('TP_ESCOLA')['media_g
 # Exibindo a média geral por tipo de escola
 print(media_geral_por_tipo_escola)
 
+#Fim, espero que tenham gostado! Qualquer dúvida estou sempre disponível :)
